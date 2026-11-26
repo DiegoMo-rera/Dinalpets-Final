@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37806.7 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinalPets.Backend", "DinalPets.Backend\DinalPets.Backend.csproj", "{2EE8F0A3-7FFE-4DC3-A8F7-11113B3E6A79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EE8F0A3-7FFE-4DC3-A8F7-11113B3E6A79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE8F0A3-7FFE-4DC3-A8F7-11113B3E6A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE8F0A3-7FFE-4DC3-A8F7-11113B3E6A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE8F0A3-7FFE-4DC3-A8F7-11113B3E6A79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B2B7DA0-D1ED-4D5A-AB6F-B94BEC6C2AF0}
+	EndGlobalSection
+EndGlobal

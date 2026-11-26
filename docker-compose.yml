@@ -1,0 +1,39 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: dinalpets-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=TuPassword123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  backend:
+    build:
+      context: ./DinalPets.Backend/DinalPets.Backend
+      dockerfile: Dockerfile
+    container_name: dinalpets-backend
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DinalPetsDB;User Id=sa;Password=TuPassword123!;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+
+  frontend:
+    build:
+      context: ./DinalPets.Frontend
+      dockerfile: Dockerfile
+    container_name: dinalpets-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  sqlserver_data:

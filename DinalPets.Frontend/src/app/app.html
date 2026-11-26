@@ -1,0 +1,125 @@
+<!-- Barra de Navegación -->
+<nav class="navbar">
+  <div class="brand">
+    <img src="logoDinalpets.png" alt="Logo Dinalpets" class="logo-imagen">
+    <span class="nombre-empresa">Dinalpets S.A.S.</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="javascript:void(0)" (click)="toggleCarrito()">🛒 Carrito ({{ carrito.length }})</a></li>
+    <li>
+      <button class="btn-login" (click)="toggleAdmin()">
+        {{ esAdmin ? 'Cerrar Sesión' : 'Admin Login' }}
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<!-- Banner Principal Animado -->
+<header class="hero" [style.background-image]="'url(' + imagenActual + ')'">
+  <button class="carrusel-btn btn-izq" (click)="anteriorImagen()">&#10094;</button>
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h2>Las mascotas merecen lo mejor</h2>
+      <p>Juguetes, rascadores, alimento y accesorios de excelente calidad.</p>
+    </div>
+  </div>
+  <button class="carrusel-btn btn-der" (click)="siguienteImagen()">&#10095;</button>
+</header>
+
+<!-- Formulario Admin -->
+@if (esAdmin) {
+  <section class="crear-producto-container">
+    <h3>{{ productoEnEdicion ? '✏️ Editar Producto' : '➕ Agregar Nuevo Producto' }}</h3>
+    <div class="formulario-inline">
+      <input type="text" id="cajaNombre" placeholder="Nombre..." class="input-form">
+      <input type="text" id="cajaDescripcion" placeholder="Descripción..." class="input-form">
+      <input type="number" id="cajaPrecio" placeholder="Precio $" class="input-form">
+      <input type="text" id="cajaImg" placeholder="URL de la foto..." class="input-form">
+      
+      <button class="btn-guardar" (click)="guardarProducto()">
+        {{ productoEnEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+    </div>
+  </section>
+}
+
+<!-- Catálogo -->
+<main id="catalogo" class="seccion-catalogo">
+  <h2 class="titulo-catalogo">Nuestros Productos</h2>
+  <div class="contenedor-catalogo">
+    @for (producto of productos; track producto.id || producto.Id) {
+      <div class="tarjeta-producto">
+        <img [src]="producto.imagen || producto.Imagen || 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=300&q=80'" alt="Producto mascota" class="imagen-producto">
+        
+        <div class="info-producto">
+          <h3>{{ producto.nombre || producto.Nombre }}</h3>
+          <p class="descripcion">{{ producto.descripcion || producto.Descripcion }}</p>
+          <div class="pie-tarjeta">
+            <span class="precio">${{ producto.precio || producto.Precio || '0.00' }}</span>
+            <button class="btn-comprar" (click)="agregarAlCarrito(producto)">Comprar</button>
+          </div>
+          
+          @if (esAdmin) {
+            <div class="admin-panel">
+              <button class="btn-editar" (click)="prepararEdicion(producto)">✏️ Editar</button>
+              <button class="btn-eliminar" (click)="eliminarProducto(producto)">🗑️ Eliminar</button>
+            </div>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="mensaje-vacio"><p>Cargando productos del servidor...</p></div>
+    }
+  </div>
+</main>
+
+<!-- Panel del Carrito de Compras -->
+@if (mostrarCarrito) {
+  <div class="carrito-overlay" (click)="toggleCarrito()"></div>
+  <div class="carrito-panel">
+    <div class="carrito-header">
+      <h2>Tu Carrito 🛒</h2>
+      <button class="btn-cerrar" (click)="toggleCarrito()">✖</button>
+    </div>
+    
+    <div class="carrito-body">
+      @for (item of carrito; track $index) {
+        <div class="carrito-item">
+          <img [src]="item.imagen || item.Imagen || 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=100&q=80'" alt="img" class="carrito-img-mini">
+          <div class="carrito-info">
+            <h4>{{ item.nombre || item.Nombre }}</h4>
+            <p>${{ item.precio || item.Precio }}</p>
+          </div>
+          <button class="btn-quitar-carrito" (click)="eliminarDelCarrito($index)">🗑️</button>
+        </div>
+      } @empty {
+        <div class="carrito-vacio">
+          <p>Tu carrito está vacío 😿</p>
+        </div>
+      }
+    </div>
+
+    <div class="carrito-footer">
+      <h3>Total: <span class="total-precio">${{ totalCarrito }}</span></h3>
+      <button class="btn-pagar" [disabled]="carrito.length === 0" (click)="procederAlPago()">Proceder al Pago</button>
+    </div>
+  </div>
+}
+
+<!-- Modal de Inicio de Sesión (JWT) -->
+@if (mostrarLogin) {
+  <div class="login-overlay" (click)="cerrarModalLogin()"></div>
+  <div class="login-modal">
+    <div class="login-header">
+      <h3>🔐 Acceso Administrador</h3>
+      <button class="btn-cerrar" (click)="cerrarModalLogin()">✖</button>
+    </div>
+    <div class="login-body">
+      <input type="text" id="loginUsuario" placeholder="Usuario" class="input-form">
+      <input type="password" id="loginPassword" placeholder="Contraseña" class="input-form">
+      <button class="btn-guardar" (click)="iniciarSesion()">Ingresar</button>
+    </div>
+  </div>
+}

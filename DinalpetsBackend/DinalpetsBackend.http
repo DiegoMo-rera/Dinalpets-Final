@@ -1,0 +1,6 @@
+@DinalpetsBackend_HostAddress = http://localhost:5072
+
+GET {{DinalpetsBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
